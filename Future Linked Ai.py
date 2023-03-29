@@ -15,25 +15,15 @@ from tkinter import filedialog
 from tkinter import messagebox
 import json
 try:
-    print("verson online")
-    import urllib.request, json
-    with urllib.request.urlopen("https://raw.githubusercontent.com/isaacmaker/Future-Linked-Ai/main/verson.json") as url2:
-        data = json.load(url2)
+    with open("verson.json","r") as v:
+        print("found")
+        data = json.load(v)
         verson = data["verson"]
         chats.append("                                                Future Linked")
         chats.append("                                  "+data["new"])
         chats.append("                                            "+data["update"])
-        with open("verson.json","w") as v:
-            json.dump(data,v)
-            print("saved")
 except:
-    with open("verson.json","r") as v:
-        data = json.load(v)
-        verson = data["verson"]
-        chats.append("    ")
-        chats.append(data["new"])
-        chats.append(data["update"])
-        print("verson not updated")
+    print("no verson")
 
 try:
     import vlc
