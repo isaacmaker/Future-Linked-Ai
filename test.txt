@@ -1,0 +1,15 @@
+import json
+
+
+
+f = open('example.json', 'w')
+json.dump(data, f)
+
+import json
+
+with open('example.json', 'r') as f:
+    data = json.load(f)
+
+with open('example.py', 'w') as f:
+    f.write(data)
+    print("hello")
