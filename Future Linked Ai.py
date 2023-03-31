@@ -27,17 +27,17 @@ try:
         chats.append("                                            "+data["update"])
 except:
     print("no verson")
-#try:
+try:
 
-import urllib.request, json
-with urllib.request.urlopen("https://raw.githubusercontent.com/isaacmaker/Future-Linked-Ai/main/verson.json") as url9:
-    verson_check = json.load(url9)
-    verson_local = data.get("verson")
-    verson_online = verson_check.get("verson")
-    print(verson_online)
-    if verson_local != verson_online:
-        messagebox.showinfo("update","an update is available please upgrade your future linked Ai")
-#except:
+    import urllib.request, json
+    with urllib.request.urlopen("https://raw.githubusercontent.com/isaacmaker/Future-Linked-Ai/main/verson.json") as url9:
+        verson_check = json.load(url9)
+        verson_local = data.get("verson")
+        verson_online = verson_check.get("verson")
+        print(verson_online)
+        if verson_local != verson_online:
+            messagebox.showinfo("update","an update is available please upgrade your future linked Ai")
+except:
     print("not online or no update")
 try:
     import vlc
@@ -144,7 +144,7 @@ def ask(enter1):
         answer_label = tk.Label(window,text=Ai.get(qustion),fg="white",bg="black")
         answer_label.grid(row=2,column=0,)
         closest_key = difflib.get_close_matches(qustion, Ai.keys())[0]
-        chats.append(closest_key)
+        chats.append(Ai.get(closest_key))
         print(chats)
         try:
             chatbox.destroy()
@@ -163,7 +163,7 @@ def ask(enter1):
         try:
             print("found something close")
             closest_key = difflib.get_close_matches(qustion, Ai.keys())[0]
-            chats.append(closest_key)
+            chats.append(Ai.get(closest_key))
             print(chats)
             try:
                 chatbox.destroy()
