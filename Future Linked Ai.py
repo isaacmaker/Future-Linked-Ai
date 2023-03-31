@@ -4,10 +4,12 @@ global chatbox
 global label
 global input_field
 global starting
+import difflib
 starting = 0
 chats = []
 label = 0
 input_field = 0
+str_test = {}
 import tkinter as tk
 from tkinter import END
 from tkinter import Tk
@@ -16,15 +18,27 @@ from tkinter import messagebox
 import json
 try:
     with open("verson.json","r") as v:
+        global data
         print("found")
         data = json.load(v)
         verson = data["verson"]
-        chats.append("                                                Future Linked")
+        chats.append("                                                Future Linked",)
         chats.append("                                  "+data["new"])
         chats.append("                                            "+data["update"])
 except:
     print("no verson")
+#try:
 
+import urllib.request, json
+with urllib.request.urlopen("https://raw.githubusercontent.com/isaacmaker/Future-Linked-Ai/main/verson.json") as url9:
+    verson_check = json.load(url9)
+    verson_local = data.get("verson")
+    verson_online = verson_check.get("verson")
+    print(verson_online)
+    if verson_local != verson_online:
+        messagebox.showinfo("update","an update is available please upgrade your future linked Ai")
+#except:
+    print("not online or no update")
 try:
     import vlc
     p = vlc.MediaPlayer("\python\sound.mp3")
@@ -125,24 +139,12 @@ def ask(enter1):
 
     qustion = input_field.get()
     chats.append("you:  "+qustion)
-    #dot_lenth = 0
-    #dot_list = [".","..","..."]
-    #qustion= input("how how can i help you: ")
-    #for a in range(3):
-    #if dot_lenth == 4:
-     #   print("True")
-      #  dot_lenth == 0
-    #dot_lenth =+ 1
-    #print(dot_lenth)
-     #   dot = dot_list[a]
-    #print(f"{dot}", end="\r")
-    #time.sleep(0.2)
     if qustion in Ai:
         global chatbox
-        print(Ai.get(qustion))
         answer_label = tk.Label(window,text=Ai.get(qustion),fg="white",bg="black")
         answer_label.grid(row=2,column=0,)
-        chats.append("Ai:  "+Ai.get(qustion))
+        closest_key = difflib.get_close_matches(qustion, Ai.keys())[0]
+        chats.append(closest_key)
         print(chats)
         try:
             chatbox.destroy()
@@ -158,25 +160,44 @@ def ask(enter1):
             print("nothing in list")
         clear()
     else:
-        #global enter
-        #global label
-        #qustion = input_field.get()
-        #input_field.delete(0, END)
-        #label.destroy()
-        #enter.destroy()
-        #label = tk.Label(window,text="what is the answer?",bg="black",fg="white")
-        #label.grid(row=1,column=0)
-        #enter = tk.Button(window,text="Enter",command=lambda: ask("hello"))
-        #enter.bind("<Return>",ask)
-        #enter.grid(row=4,column=0)
-        add_qustion = messagebox.askquestion("no answer","would you like to add an answer",icon='warning')
-        if add_qustion == "yes":
-            import futureLinkedadim
-            futureLinkedadim.update_online(qustion)
-        else:
+        try:
+            print("found something close")
+            closest_key = difflib.get_close_matches(qustion, Ai.keys())[0]
+            chats.append(closest_key)
+            print(chats)
+            try:
+                chatbox.destroy()
+                chatbox = tk.Listbox(window,width=58,height=35,background="grey",border=4,)
+                chatbox.grid(row=0,column=0)
+            except:
+                print("cant find anything in the list")
+            try:
+                for item in chats:
+                    chatbox.insert(tk.END, item)
+                    print("added")
+            except:
+                print("nothing in list")
             clear()
-
-        setup("hello")
+        except:
+            add_qustion = messagebox.askquestion("no answer","would you like to add an answer",icon='warning')
+            if add_qustion == "yes":
+                import futureLinkedadim
+                futureLinkedadim.update_online(qustion)
+            else:
+                clear()
+        try:
+            chatbox.destroy()
+            chatbox = tk.Listbox(window,width=58,height=35,background="grey",border=4,)
+            chatbox.grid(row=0,column=0)
+        except:
+            print("cant find anything in the list")
+        try:
+            for item in chats:
+                chatbox.insert(tk.END, item)
+                print("added")
+        except:
+            print("nothing in list")
+        clear()
 
 def clear_chatbox():
     global chats
